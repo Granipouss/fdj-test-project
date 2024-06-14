@@ -1,0 +1,16 @@
+{
+  "name": "api-interfaces",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "api-interfaces",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "api-interfaces/jest.config.ts"
+      }
+    }
+  }
+}
