@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { Player, PlayerSchema } from './player.schema';
+import { LeaguesModule } from './leagues/leagues.module';
+import { PlayersModule } from './players/players.module';
+import { TeamsModule } from './teams/teams.module';
 
 @Module({
   imports: [
@@ -12,9 +12,9 @@ import { Player, PlayerSchema } from './player.schema';
       user: process.env['MONGO_USER'],
       pass: process.env['MONGO_PASSWORD'],
     }),
-    MongooseModule.forFeature([{ name: Player.name, schema: PlayerSchema }]),
+    LeaguesModule,
+    PlayersModule,
+    TeamsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

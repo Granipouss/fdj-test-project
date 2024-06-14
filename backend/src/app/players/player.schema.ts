@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, ObjectId } from 'mongoose';
 
+import type { PlayerDTO } from 'api-interfaces';
+
 @Schema()
 export class PlayerSignin {
   @Prop()
@@ -11,7 +13,7 @@ export class PlayerSignin {
 }
 
 @Schema()
-export class Player {
+export class Player implements PlayerDTO {
   @Prop()
   _id: ObjectId;
 
