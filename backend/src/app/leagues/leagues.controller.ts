@@ -14,21 +14,20 @@ export class LeaguesController {
     return { data };
   }
 
-  @Get(':id')
-  async getOne(@Param() params: { id: string }): Promise<LeagueDTO> {
-    return this.leaguesService.findById(params.id);
-  }
-
   @Get('autocomplete')
   async getAutocomplete(@Query('q') query?: string): Promise<AutocompleteDTO> {
     if (!query || query.length < 3) return { options: [] };
     const leagues = await this.leaguesService.findAll({ name: '^' + query });
 
-    console.log({ query });
     return {
       options: leagues
         .slice(0, 5)
         .map((league) => ({ id: league._id, name: league.name })),
     };
+  }
+
+  @Get(':id')
+  async getOne(@Param() params: { id: string }): Promise<LeagueDTO> {
+    return this.leaguesService.findById(params.id);
   }
 }

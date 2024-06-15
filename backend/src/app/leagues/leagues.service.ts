@@ -14,7 +14,9 @@ export class LeaguesService {
 
   findAll(filters: LeaguesFilters) {
     const mongoFilter: FilterQuery<League> = {};
-    if (filters.name) mongoFilter.name = { $regex: filters.name };
+    if (filters.name) {
+      mongoFilter.name = { $regex: filters.name, $options: 'i' };
+    }
 
     return this.layerModel.find(mongoFilter).exec();
   }
