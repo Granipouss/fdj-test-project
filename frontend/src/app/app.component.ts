@@ -1,15 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
 import { map } from 'rxjs';
-import type { PlayerListDTO } from 'api-interfaces';
 
 import { NxWelcomeComponent } from './nx-welcome.component';
+import { PlayersApiService } from './players/players-api.service';
+import { PlayersModule } from './players/players.module';
 
 @Component({
   standalone: true,
-  imports: [NxWelcomeComponent, RouterModule, CommonModule],
+  imports: [NxWelcomeComponent, RouterModule, CommonModule, PlayersModule],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -17,12 +17,10 @@ import { NxWelcomeComponent } from './nx-welcome.component';
 export class AppComponent {
   constructor(
     //
-    private readonly http: HttpClient,
+    private readonly playersApi: PlayersApiService,
   ) {}
 
   title = 'frontend';
 
-  readonly players$ = this.http
-    .get<PlayerListDTO>(`/api`)
-    .pipe(map((res) => res.data));
+  readonly players$ = this.playersApi.getPlayers().pipe(map((res) => res.data));
 }
