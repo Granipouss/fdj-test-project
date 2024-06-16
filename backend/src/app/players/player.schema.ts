@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, ObjectId } from 'mongoose';
+import { HydratedDocument, ObjectId, SchemaTypes } from 'mongoose';
 
 @Schema()
 export class PlayerSignin {
@@ -12,7 +12,7 @@ export class PlayerSignin {
 
 @Schema()
 export class Player {
-  @Prop()
+  @Prop({ type: SchemaTypes.ObjectId })
   _id!: ObjectId;
 
   @Prop()

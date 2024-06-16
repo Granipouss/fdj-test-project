@@ -5,7 +5,7 @@ import { TeamDocument } from '../teams/team.schema';
 
 @Schema()
 export class League {
-  @Prop()
+  @Prop({ type: SchemaTypes.ObjectId })
   _id!: ObjectId;
 
   @Prop()

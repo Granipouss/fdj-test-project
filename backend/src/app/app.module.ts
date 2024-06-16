@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { LeaguesModule } from './leagues/leagues.module';
-import { PlayersModule } from './players/players.module';
 import { TeamsModule } from './teams/teams.module';
 
 @Module({
@@ -13,7 +12,6 @@ import { TeamsModule } from './teams/teams.module';
       pass: process.env['MONGO_PASSWORD'],
     }),
     LeaguesModule,
-    PlayersModule,
     TeamsModule,
   ],
 })
