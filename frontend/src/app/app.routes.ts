@@ -3,10 +3,7 @@ import { Route } from '@angular/router';
 import { leagueResolver } from './leagues/league-resolve';
 import { LeaguesApiService } from './leagues/leagues-api.service';
 import { InternalErrorPageComponent } from './pages/internal-error/internal-error-page.component';
-import { LeagueListPageComponent } from './pages/league-list/league-list-page.component';
-import { LeaguePageComponent } from './pages/league/league-page.component';
 import { NotFoundPageComponent } from './pages/not-found/not-found-page.component';
-import { TeamPageComponent } from './pages/team/team-page.component';
 import { teamResolver } from './teams/team-resolve';
 import { TeamsApiService } from './teams/teams-api.service';
 
@@ -18,11 +15,17 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'leagues',
-    component: LeagueListPageComponent,
+    loadComponent: () =>
+      import('./pages/league-list/league-list-page.component').then(
+        (m) => m.LeagueListPageComponent,
+      ),
   },
   {
     path: 'leagues/:leagueId',
-    component: LeaguePageComponent,
+    loadComponent: () =>
+      import('./pages/league/league-page.component').then(
+        (m) => m.LeaguePageComponent,
+      ),
     providers: [LeaguesApiService],
     resolve: {
       league: leagueResolver,
@@ -30,7 +33,10 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'teams/:teamId',
-    component: TeamPageComponent,
+    loadComponent: () =>
+      import('./pages/team/team-page.component').then(
+        (m) => m.TeamPageComponent,
+      ),
     providers: [TeamsApiService],
     resolve: {
       team: teamResolver,
