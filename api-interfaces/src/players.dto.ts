@@ -1,7 +1,5 @@
-import type { ObjectId } from 'mongoose';
-
 export type PlayerDTO = {
-  _id: ObjectId;
+  id: string;
   name: string;
   position: string;
   thumbnail: string;
@@ -9,9 +7,5 @@ export type PlayerDTO = {
     amount: number;
     currency: string;
   };
-  born: Date;
-};
-
-export type PlayerListDTO = {
-  data: PlayerDTO[];
+  born: string; // Date String
 };

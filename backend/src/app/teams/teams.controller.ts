@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 
-import type { TeamDTO, TeamListDTO } from 'api-interfaces';
+import type { TeamDetailsDTO } from 'api-interfaces';
 
 import { TeamsService } from './teams.service';
 
@@ -8,14 +8,25 @@ import { TeamsService } from './teams.service';
 export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}
 
-  @Get()
-  async getAll(): Promise<TeamListDTO> {
-    const data = await this.teamsService.findAll();
-    return { data };
-  }
-
   @Get(':id')
-  async getOne(@Param() params: { id: string }): Promise<TeamDTO> {
-    return this.teamsService.findOne(params.id);
+  async getOne(@Param() params: { id: string }): Promise<TeamDetailsDTO> {
+    const team = await this.teamsService.findOne(params.id);
+    await team.populate('players');
+    return {
+      id: team.id,
+      name: team.name,
+      thumbnail: team.thumbnail,
+      players: team.players.map((player) => ({
+        id: player.id,
+        name: player.name,
+        position: player.position,
+        thumbnail: player.thumbnail,
+        born: player.born.toISOString(),
+        signin: {
+          amount: player.signin.amount,
+          currency: player.signin.currency,
+        },
+      })),
+    };
   }
 }

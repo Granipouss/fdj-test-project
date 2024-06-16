@@ -1,0 +1,34 @@
+<form (ngSubmit)="handleSearch()">
+  <mat-form-field appearance="outline">
+    <mat-label>Search a league</mat-label>
+    <input
+      type="text"
+      placeholder="Search a league"
+      aria-label="Search League"
+      matInput
+      [formControl]="searchControl"
+      [matAutocomplete]="auto"
+    />
+    <button mat-icon-button matSuffix type="submit">
+      <mat-icon>search</mat-icon>
+    </button>
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let option of filteredSuggestions$ | async"
+        [value]="option"
+      >
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+
+<div *ngIf="leagues$ | async as leagues">
+  <div *ngFor="let league of leagues">
+    <a href="leagues/{{ league.id }}">{{ league.name }}</a>
+    {{ league | json }}
+  </div>
+  <div *ngIf="leagues.length < 1">No league found</div>
+</div>
+
+<div *ngIf="leaguesLoading$ | async">Loading</div>

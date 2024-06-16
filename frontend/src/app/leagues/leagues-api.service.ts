@@ -2,7 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 
-import type { AutocompleteDTO, LeagueDTO, LeagueListDTO } from 'api-interfaces';
+import type {
+  AutocompleteDTO,
+  LeagueDetailsDTO,
+  LeagueListDTO,
+} from 'api-interfaces';
 
 @Injectable()
 export class LeaguesApiService {
@@ -17,12 +21,12 @@ export class LeaguesApiService {
   }
 
   getLeagueById(id: string) {
-    return this.http.get<LeagueDTO>(`/api/leagues/${id}`);
+    return this.http.get<LeagueDetailsDTO>(`/api/leagues/${id}`);
   }
 
   autocomplete(query: string) {
     // No need to send a request
-    if (query.length < 3) return of({ options: [] });
+    if (query.length < 3) return of({ data: [] });
     return this.http.get<AutocompleteDTO>(
       `/api/leagues/autocomplete?q=${encodeURI(query)}`,
     );

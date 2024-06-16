@@ -1,12 +1,11 @@
-import type { ObjectId } from 'mongoose';
+import { PlayerDTO } from './players.dto';
 
 export type TeamDTO = {
-  _id: ObjectId;
+  id: string;
   name: string;
   thumbnail: string;
-  players: ObjectId[];
 };
 
-export type TeamListDTO = {
-  data: TeamDTO[];
+export type TeamDetailsDTO = TeamDTO & {
+  players: PlayerDTO[];
 };

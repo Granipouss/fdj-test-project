@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { PlayersApiService } from './players-api.service';
-
 @NgModule({
-  providers: [PlayersApiService],
+  providers: [],
 })
 export class PlayersModule {}

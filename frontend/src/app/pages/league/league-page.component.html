@@ -1,0 +1,8 @@
+<div *ngIf="league$ | async as league">
+  <h2>League - {{ league.name }}</h2>
+  <ul>
+    <li *ngFor="let team of league.teams">
+      <a href="/teams/{{ team.id }}">{{ team.name }}</a>
+    </li>
+  </ul>
+</div>

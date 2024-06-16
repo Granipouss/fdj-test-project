@@ -1,10 +1,13 @@
-import type { ObjectId } from 'mongoose';
+import type { TeamDTO } from './teams.dto';
 
 export type LeagueDTO = {
-  _id: ObjectId;
+  id: string;
   name: string;
   sport: string;
-  teams: ObjectId[];
+};
+
+export type LeagueDetailsDTO = LeagueDTO & {
+  teams: TeamDTO[];
 };
 
 export type LeagueListDTO = {

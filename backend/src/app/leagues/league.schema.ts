@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, ObjectId } from 'mongoose';
+import { HydratedDocument, ObjectId, SchemaTypes } from 'mongoose';
 
-import type { LeagueDTO } from 'api-interfaces';
+import { TeamDocument } from '../teams/team.schema';
 
 @Schema()
-export class League implements LeagueDTO {
+export class League {
   @Prop()
   _id: ObjectId;
 
@@ -14,8 +14,8 @@ export class League implements LeagueDTO {
   @Prop()
   sport: string;
 
-  @Prop()
-  teams: ObjectId[];
+  @Prop({ type: [SchemaTypes.ObjectId], ref: 'Team' })
+  teams: TeamDocument[];
 }
 
 export type LeagueDocument = HydratedDocument<League>;

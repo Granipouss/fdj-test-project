@@ -1,6 +1,11 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 
-import type { AutocompleteDTO, LeagueDTO, LeagueListDTO } from 'api-interfaces';
+import type {
+  AutocompleteDTO,
+  LeagueDTO,
+  LeagueDetailsDTO,
+  LeagueListDTO,
+} from 'api-interfaces';
 
 import { LeaguesService } from './leagues.service';
 
@@ -10,24 +15,38 @@ export class LeaguesController {
 
   @Get()
   async getAll(@Query('q') query?: string): Promise<LeagueListDTO> {
-    const data = await this.leaguesService.findAll({ name: query });
+    const leagues = await this.leaguesService.findAll({ name: query });
+    const data = leagues.map(
+      (league): LeagueDTO => ({
+        id: league.id,
+        name: league.name,
+        sport: league.sport,
+      }),
+    );
     return { data };
   }
 
   @Get('autocomplete')
   async getAutocomplete(@Query('q') query?: string): Promise<AutocompleteDTO> {
-    if (!query || query.length < 3) return { options: [] };
+    if (!query || query.length < 3) return { data: [] };
     const leagues = await this.leaguesService.findAll({ name: '^' + query });
-
-    return {
-      options: leagues
-        .slice(0, 5)
-        .map((league) => ({ id: league._id, name: league.name })),
-    };
+    const data = leagues.slice(0, 5).map((league) => league.name);
+    return { data };
   }
 
   @Get(':id')
-  async getOne(@Param() params: { id: string }): Promise<LeagueDTO> {
-    return this.leaguesService.findById(params.id);
+  async getOne(@Param() params: { id: string }): Promise<LeagueDetailsDTO> {
+    const league = await this.leaguesService.findById(params.id);
+    await league.populate('teams');
+    return {
+      id: league.id,
+      name: league.name,
+      sport: league.sport,
+      teams: league.teams.map((team) => ({
+        id: team.id,
+        name: team.name,
+        thumbnail: team.thumbnail,
+      })),
+    };
   }
 }
