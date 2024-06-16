@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Backend e2e Leagues Controller GET /api/leagues should return many leagues 1`] = `
+{
+  "data": [
+    {
+      "id": "5d2cdcf7da07b95bb8f16ed1",
+      "name": "English Premier League",
+      "sport": "soccer",
+    },
+    {
+      "id": "5d2cdd30da07b95bb8f16ed9",
+      "name": "French Ligue 1",
+      "sport": "soccer",
+    },
+    {
+      "id": "5d2d00d7da07b95bb8f16eed",
+      "name": "Supercopa de Espana",
+      "sport": "soccer",
+    },
+  ],
+}
+`;
+
+exports[`Backend e2e Leagues Controller GET /api/leagues should search for leagues 1`] = `
+{
+  "data": [
+    {
+      "id": "5d2cdd30da07b95bb8f16ed9",
+      "name": "French Ligue 1",
+      "sport": "soccer",
+    },
+  ],
+}
+`;
+
+exports[`Backend e2e Leagues Controller GET /api/leagues/:id should return league details 1`] = `
+{
+  "id": "5d2cdcf7da07b95bb8f16ed1",
+  "name": "English Premier League",
+  "sport": "soccer",
+  "teams": [
+    {
+      "id": "5d2d01fdda07b95bb8f16f0a",
+      "name": "Arsenal",
+      "thumbnail": "https://www.thesportsdb.com//images//media//team//badge//a1af2i1557005128.png",
+    },
+    {
+      "id": "5d2d02d7da07b95bb8f16f2a",
+      "name": "Manchester City",
+      "thumbnail": "https://www.thesportsdb.com/images/media/team/badge/vwpvry1467462651.png",
+    },
+    {
+      "id": "5d2d8f60da07b95bb8f17170",
+      "name": "Chelsea",
+      "thumbnail": "https://www.thesportsdb.com/images/media/team/badge/yvwvtu1448813215.png",
+    },
+  ],
+}
+`;
+
+exports[`Backend e2e Leagues Controller GET /api/leagues/autocomplete should return some suggestions 1`] = `
+{
+  "data": [
+    "French Ligue 1",
+  ],
+}
+`;
+
+exports[`Backend e2e Teams Controller GET /api/teams/:id should return team details 1`] = `
+{
+  "id": "5d2d01fdda07b95bb8f16f0a",
+  "name": "Arsenal",
+  "players": [
+    {
+      "born": "1989-06-19T01:37:19.198Z",
+      "id": "5d2d058cda07b95bb8f16f80",
+      "name": "Pierre-Emerick Aubameyang",
+      "position": "Forward",
+      "signin": {
+        "amount": 63750000,
+        "currency": "eur",
+      },
+      "thumbnail": "https://www.thesportsdb.com/images/media/player/thumb/fnk3u51520755737.jpg",
+    },
+    {
+      "born": "1988-10-16T05:34:19.198Z",
+      "id": "5d2d0653da07b95bb8f16fa8",
+      "name": "Mesut Ozil",
+      "position": "Midfielder",
+      "signin": {
+        "amount": 42500000,
+        "currency": "gbp",
+      },
+      "thumbnail": "https://www.thesportsdb.com/images/media/player/thumb/g0xlkp1510859385.jpg",
+    },
+  ],
+  "thumbnail": "https://www.thesportsdb.com//images//media//team//badge//a1af2i1557005128.png",
+}
+`;

@@ -1,13 +1,30 @@
-import { getGreeting } from '../support/app.po';
+describe('Frontend e2e', () => {
+  it('should let user can browse to a team page.', () => {
+    const LeagueName = 'English Premier League';
+    const TeamName = 'Arsenal';
 
-describe('frontend-e2e', () => {
-  beforeEach(() => cy.visit('/'));
+    cy.visit('/');
 
-  it('should display welcome message', () => {
-    // Custom command example, see `../support/commands.ts` file
-    cy.login('my-email@something.com', 'myPassword');
+    // Redirect to leagues page
+    cy.url().should('contain', '/leagues');
 
-    // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains(/Welcome/);
+    // Test autocomplete
+    cy.get('input').type(LeagueName.substring(0, 3));
+    cy.contains(LeagueName).click();
+    cy.get('input').should('have.value', LeagueName);
+
+    // Search
+    cy.get('button').contains('Search').click();
+
+    // Go to League
+    cy.get('a').contains(LeagueName).click();
+    cy.get('h2').contains(LeagueName);
+
+    // Go to Team
+    cy.get('a').contains(TeamName).click();
+    cy.get('h2').contains(TeamName);
+
+    // Count players
+    cy.get('h3').should('have.length', 2);
   });
 });

@@ -5,7 +5,8 @@
   "scripts": {
     "build": "nx run-many -t build",
     "serve": "nx run-many -t serve",
-    "test": "nx run-many -t test"
+    "test": "nx run-many -t test",
+    "e2e": "nx run-many -t e2e"
   },
   "private": true,
   "devDependencies": {
@@ -71,7 +72,6 @@
     "@nestjs/core": "^10.0.2",
     "@nestjs/mongoose": "^10.0.6",
     "@nestjs/platform-express": "^10.0.2",
-    "axios": "^1.6.0",
     "bulma": "^1.0.1",
     "mongoose": "^8.4.1",
     "reflect-metadata": "^0.1.13",
