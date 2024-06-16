@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import type { FilterQuery, Model } from 'mongoose';
+import { Error, type FilterQuery, type Model } from 'mongoose';
 
 import { League } from './league.schema';
 
@@ -21,7 +21,15 @@ export class LeaguesService {
     return this.layerModel.find(mongoFilter).exec();
   }
 
-  findById(id: string) {
-    return this.layerModel.findById({ _id: id }).exec();
+  async findById(id: string) {
+    try {
+      return await this.layerModel.findById({ _id: id }).exec();
+    } catch (error) {
+      // Catch cast id errors, so it is handled as a not found
+      if (error instanceof Error.CastError && error.path === '_id') {
+        return null;
+      }
+      throw error;
+    }
   }
 }

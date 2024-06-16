@@ -4,31 +4,31 @@ import { HydratedDocument, ObjectId } from 'mongoose';
 @Schema()
 export class PlayerSignin {
   @Prop()
-  amount: number;
+  amount!: number;
 
   @Prop()
-  currency: string;
+  currency!: string;
 }
 
 @Schema()
 export class Player {
   @Prop()
-  _id: ObjectId;
+  _id!: ObjectId;
 
   @Prop()
-  name: string;
+  name!: string;
 
   @Prop()
-  position: string;
+  position!: string;
 
   @Prop()
-  thumbnail: string;
+  thumbnail!: string;
 
   @Prop()
-  born: Date;
+  born!: Date;
 
   @Prop()
-  signin: PlayerSignin;
+  signin!: PlayerSignin;
 }
 
 export type PlayerDocument = HydratedDocument<Player>;

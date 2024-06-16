@@ -1,4 +1,10 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Query,
+} from '@nestjs/common';
 
 import type {
   AutocompleteDTO,
@@ -37,6 +43,7 @@ export class LeaguesController {
   @Get(':id')
   async getOne(@Param() params: { id: string }): Promise<LeagueDetailsDTO> {
     const league = await this.leaguesService.findById(params.id);
+    if (!league) throw new NotFoundException();
     await league.populate('teams');
     return {
       id: league.id,

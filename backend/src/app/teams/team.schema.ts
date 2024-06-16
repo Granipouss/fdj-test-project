@@ -6,19 +6,19 @@ import { PlayerDocument } from '../players/player.schema';
 @Schema()
 export class Team {
   @Prop()
-  _id: ObjectId;
+  _id!: ObjectId;
 
   @Prop()
-  name: string;
+  name!: string;
 
   @Prop()
-  position: string;
+  position!: string;
 
   @Prop()
-  thumbnail: string;
+  thumbnail!: string;
 
   @Prop({ type: [SchemaTypes.ObjectId], ref: 'Player' })
-  players: PlayerDocument[];
+  players!: PlayerDocument[];
 }
 
 export type TeamDocument = HydratedDocument<Team>;

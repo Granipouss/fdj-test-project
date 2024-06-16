@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { ResolveFn } from '@angular/router';
+import { ResolveFn, Router } from '@angular/router';
 
 import type { TeamDetailsDTO } from 'api-interfaces';
 
@@ -10,5 +10,5 @@ export const teamResolver: ResolveFn<TeamDetailsDTO> = (route) => {
   const teamsService = inject(TeamsApiService);
   return teamsService
     .getTeamById(route.params['teamId'])
-    .pipe(catchResolverError());
+    .pipe(catchResolverError(inject(Router)));
 };

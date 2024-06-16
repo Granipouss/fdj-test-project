@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { ResolveFn } from '@angular/router';
+import { ResolveFn, Router } from '@angular/router';
 
 import { LeagueDTO } from 'api-interfaces';
 
@@ -10,5 +10,5 @@ export const leagueResolver: ResolveFn<LeagueDTO> = (route) => {
   const leaguesService = inject(LeaguesApiService);
   return leaguesService
     .getLeagueById(route.params['leagueId'])
-    .pipe(catchResolverError());
+    .pipe(catchResolverError(inject(Router)));
 };
