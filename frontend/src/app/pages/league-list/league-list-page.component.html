@@ -1,17 +1,16 @@
-<form (ngSubmit)="handleSearch()">
-  <mat-form-field appearance="outline">
-    <mat-label>Search a league</mat-label>
-    <input
-      type="text"
-      placeholder="Search a league"
-      aria-label="Search League"
-      matInput
-      [formControl]="searchControl"
-      [matAutocomplete]="auto"
-    />
-    <button mat-icon-button matSuffix type="submit">
-      <mat-icon>search</mat-icon>
-    </button>
+<section class="section">
+  <form class="field has-addons block" (ngSubmit)="handleSearch()">
+    <div class="control is-expanded">
+      <input
+        class="input"
+        type="text"
+        placeholder="Search a league"
+        aria-label="Search a league"
+        [formControl]="searchControl"
+        [matAutocomplete]="auto"
+      />
+    </div>
+
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       <mat-option
         *ngFor="let option of filteredSuggestions$ | async"
@@ -20,15 +19,28 @@
         {{ option }}
       </mat-option>
     </mat-autocomplete>
-  </mat-form-field>
-</form>
 
-<div *ngIf="leagues$ | async as leagues">
-  <div *ngFor="let league of leagues">
-    <a href="leagues/{{ league.id }}">{{ league.name }}</a>
-    {{ league | json }}
-  </div>
-  <div *ngIf="leagues.length < 1">No league found</div>
-</div>
+    <div class="control">
+      <button class="button" type="submit">Search</button>
+    </div>
+  </form>
 
-<div *ngIf="leaguesLoading$ | async">Loading</div>
+  <ng-container *ngIf="leagues$ | async as leagues" class="section">
+    <a
+      *ngFor="let league of leagues"
+      href="leagues/{{ league.id }}"
+      class="box"
+    >
+      {{ league.name }}
+    </a>
+    <div *ngIf="leagues.length < 1" class="notification">
+      We did not find anything...
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="leaguesLoading$ | async" class="section">
+    <div class="skeleton-block"></div>
+    <div class="skeleton-block"></div>
+    <div class="skeleton-block"></div>
+  </ng-container>
+</section>

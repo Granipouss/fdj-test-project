@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -8,4 +8,7 @@ import { Component } from '@angular/core';
   templateUrl: './internal-error-page.component.html',
   styleUrl: './internal-error-page.component.scss',
 })
-export class InternalErrorPageComponent {}
+export class InternalErrorPageComponent {
+  @HostBinding('class')
+  readonly hostClassName = 'container is-max-desktop';
+}

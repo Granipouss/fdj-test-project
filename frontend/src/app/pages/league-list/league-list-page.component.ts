@@ -1,14 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, OnDestroy } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import {
-  EMPTY,
-  Observable,
   ReplaySubject,
   debounceTime,
   map,
@@ -17,8 +11,6 @@ import {
   startWith,
   switchMap,
 } from 'rxjs';
-
-import { LeagueDTO } from 'api-interfaces';
 
 import { LeaguesApiService } from '../../leagues/leagues-api.service';
 import { LeaguesModule } from '../../leagues/leagues.module';
@@ -30,63 +22,56 @@ import { LeaguesModule } from '../../leagues/leagues.module';
     FormsModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
     LeaguesModule,
   ],
   selector: 'app-league-list-page',
   templateUrl: './league-list-page.component.html',
   styleUrl: './league-list-page.component.scss',
 })
-export class LeagueListPageComponent implements OnInit, OnDestroy {
+export class LeagueListPageComponent implements OnDestroy {
   constructor(
     //
     private readonly leaguesApi: LeaguesApiService,
   ) {}
 
-  searchControl = new FormControl('');
-  filteredSuggestions$: Observable<string[]> = EMPTY;
+  @HostBinding('class')
+  readonly hostClassName = 'container is-max-desktop';
 
-  searchQuery$ = new ReplaySubject<string>(1);
+  readonly searchControl = new FormControl('');
 
-  leagues$: Observable<LeagueDTO[] | null> = EMPTY;
-  leaguesLoading$: Observable<boolean> = EMPTY;
+  readonly filteredSuggestions$ = this.searchControl.valueChanges.pipe(
+    startWith(''),
+    debounceTime(300),
+    map((value) => value?.trim().toLocaleLowerCase() ?? ''),
+    switchMap((value) => this.leaguesApi.autocomplete(value)),
+    map((dto) => dto.data),
+    shareReplay(1),
+  );
 
-  ngOnInit() {
-    this.filteredSuggestions$ = this.searchControl.valueChanges.pipe(
-      startWith(''),
-      debounceTime(300),
-      map((value) => value?.trim().toLocaleLowerCase() ?? ''),
-      switchMap((value) => this.leaguesApi.autocomplete(value)),
-      map((dto) => dto.data),
-      shareReplay(1),
-    );
-
-    this.leagues$ = this.searchQuery$.pipe(
-      switchMap((query) =>
-        this.leaguesApi.searchLeagues(query).pipe(
-          map((dto) => dto.data),
-          startWith(null),
-        ),
-      ),
-      shareReplay(1),
-    );
-
-    this.leaguesLoading$ = merge(
-      this.searchQuery$.pipe(map(() => true)),
-      this.leagues$.pipe(map(() => false)),
-    ).pipe(startWith(false), shareReplay(1));
-  }
-
-  ngOnDestroy(): void {
-    this.searchQuery$.complete();
-  }
+  readonly searchQuery$ = new ReplaySubject<string>(1);
 
   handleSearch() {
     const query = this.searchControl.value;
     if (!query) return;
     this.searchQuery$.next(query);
+  }
+
+  readonly leagues$ = this.searchQuery$.pipe(
+    switchMap((query) =>
+      this.leaguesApi.searchLeagues(query).pipe(
+        map((dto) => dto.data),
+        startWith(null),
+      ),
+    ),
+    shareReplay(1),
+  );
+
+  readonly leaguesLoading$ = merge(
+    this.searchQuery$.pipe(map(() => true)),
+    this.leagues$.pipe(map(() => false)),
+  ).pipe(startWith(false), shareReplay(1));
+
+  ngOnDestroy(): void {
+    this.searchQuery$.complete();
   }
 }

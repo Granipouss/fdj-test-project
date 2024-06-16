@@ -1,8 +1,30 @@
-<div *ngIf="team$ | async as team">
-  <h2>Team - {{ team.name }}</h2>
-  <ul>
-    <li *ngFor="let player of team.players">
-      {{ player.name }}
-    </li>
-  </ul>
-</div>
+<section *ngIf="team$ | async as team" class="section">
+  <h2 class="title">Team - {{ team.name }}</h2>
+  <div class="fixed-grid has-3-cols">
+    <ul class="grid">
+      <li *ngFor="let player of team.players" class="cell">
+        <article class="card">
+          <div class="card-image">
+            <figure class="image is-square">
+              <img [src]="player.thumbnail" [alt]="player.name" />
+            </figure>
+          </div>
+          <div class="card-content">
+            <h3 class="title is-4">{{ player.name }}</h3>
+            <p class="subtitle">{{ player.position }}</p>
+            <p>Born on the {{ player.born | date }}.</p>
+            <div class="content">
+              <p>
+                Signed in for
+                {{
+                  player.signin.amount
+                    | currency : (player.signin.currency | uppercase)
+                }}.
+              </p>
+            </div>
+          </div>
+        </article>
+      </li>
+    </ul>
+  </div>
+</section>

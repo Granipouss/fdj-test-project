@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 
@@ -17,6 +17,9 @@ export class TeamPageComponent {
     //
     private readonly route: ActivatedRoute,
   ) {}
+
+  @HostBinding('class')
+  readonly hostClassName = 'container is-max-desktop';
 
   team$ = this.route.data.pipe(map((data) => data['team'] as TeamDetailsDTO));
 }
