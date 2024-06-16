@@ -4,6 +4,7 @@ import { leagueResolver } from './leagues/league-resolve';
 import { LeaguesApiService } from './leagues/leagues-api.service';
 import { LeagueListPageComponent } from './pages/league-list/league-list-page.component';
 import { LeaguePageComponent } from './pages/league/league-page.component';
+import { NotFoundPageComponent } from './pages/not-found/not-found-page.component';
 import { TeamPageComponent } from './pages/team/team-page.component';
 import { teamResolver } from './teams/team-resolve';
 import { TeamsApiService } from './teams/teams-api.service';
@@ -11,8 +12,8 @@ import { TeamsApiService } from './teams/teams-api.service';
 export const appRoutes: Route[] = [
   {
     path: '',
-    redirectTo: '/leagues',
     pathMatch: 'full',
+    redirectTo: '/leagues',
   },
   {
     path: 'leagues',
@@ -33,5 +34,10 @@ export const appRoutes: Route[] = [
     resolve: {
       team: teamResolver,
     },
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    component: NotFoundPageComponent,
   },
 ];
