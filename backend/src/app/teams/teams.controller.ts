@@ -1,6 +1,7 @@
 import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import { ApiParam, ApiResponse } from '@nestjs/swagger';
 
-import type { TeamDetailsDTO } from 'api-interfaces';
+import { TeamDetailsDTO } from 'api-interfaces';
 
 import { TeamsService } from './teams.service';
 
@@ -8,6 +9,15 @@ import { TeamsService } from './teams.service';
 export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}
 
+  @ApiResponse({
+    status: 200,
+    description: 'Return one team details for the given id.',
+    type: TeamDetailsDTO,
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Id of the team',
+  })
   @Get(':id')
   async getOne(@Param() params: { id: string }): Promise<TeamDetailsDTO> {
     const team = await this.teamsService.findById(params.id);

@@ -1,15 +1,24 @@
-import type { TeamDTO } from './teams.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
-export type LeagueDTO = {
-  id: string;
-  name: string;
-  sport: string;
-};
+import { TeamDTO } from './teams.dto';
 
-export type LeagueDetailsDTO = LeagueDTO & {
-  teams: TeamDTO[];
-};
+export class LeagueDTO {
+  @ApiProperty()
+  id!: string;
 
-export type LeagueListDTO = {
-  data: LeagueDTO[];
-};
+  @ApiProperty()
+  name!: string;
+
+  @ApiProperty()
+  sport!: string;
+}
+
+export class LeagueDetailsDTO extends LeagueDTO {
+  @ApiProperty({ type: [TeamDTO] })
+  teams!: TeamDTO[];
+}
+
+export class LeagueListDTO {
+  @ApiProperty({ type: [LeagueDTO] })
+  data!: LeagueDTO[];
+}
