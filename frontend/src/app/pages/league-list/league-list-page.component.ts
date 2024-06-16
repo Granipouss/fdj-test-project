@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostBinding, OnDestroy } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {
   ReplaySubject,
-  debounceTime,
   map,
   merge,
   shareReplay,
@@ -17,13 +15,7 @@ import { LeaguesModule } from '../../leagues/leagues.module';
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    LeaguesModule,
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, LeaguesModule],
   selector: 'app-league-list-page',
   templateUrl: './league-list-page.component.html',
   styleUrl: './league-list-page.component.scss',
@@ -38,15 +30,6 @@ export class LeagueListPageComponent implements OnDestroy {
   readonly hostClassName = 'container is-max-desktop';
 
   readonly searchControl = new FormControl('');
-
-  readonly filteredSuggestions$ = this.searchControl.valueChanges.pipe(
-    startWith(''),
-    debounceTime(300),
-    map((value) => value?.trim().toLocaleLowerCase() ?? ''),
-    switchMap((value) => this.leaguesApi.autocomplete(value)),
-    map((dto) => dto.data),
-    shareReplay(1),
-  );
 
   readonly searchQuery$ = new ReplaySubject<string>(1);
 

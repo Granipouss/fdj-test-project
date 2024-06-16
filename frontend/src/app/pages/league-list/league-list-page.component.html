@@ -1,25 +1,9 @@
 <section class="section">
   <form class="field has-addons block" (ngSubmit)="handleSearch()">
-    <div class="control is-expanded">
-      <input
-        class="input"
-        type="text"
-        placeholder="Search a league"
-        aria-label="Search a league"
-        [formControl]="searchControl"
-        [matAutocomplete]="auto"
-      />
-    </div>
-
-    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-      <mat-option
-        *ngFor="let option of filteredSuggestions$ | async"
-        [value]="option"
-      >
-        {{ option }}
-      </mat-option>
-    </mat-autocomplete>
-
+    <app-league-search-control
+      placeholder="Search a league"
+      [formControl]="searchControl"
+    />
     <div class="control">
       <button class="button" type="submit">Search</button>
     </div>

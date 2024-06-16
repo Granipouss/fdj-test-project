@@ -1,0 +1,21 @@
+<div class="control is-expanded">
+  <input
+    #input
+    class="input"
+    type="text"
+    ngDefaultControl
+    (input)="valueChanges.next(input.value)"
+    [placeholder]="placeholder"
+    [attr.aria-label]="placeholder"
+    [matAutocomplete]="auto"
+  />
+</div>
+
+<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+  <mat-option
+    *ngFor="let option of filteredSuggestions$ | async"
+    [value]="option"
+  >
+    {{ option }}
+  </mat-option>
+</mat-autocomplete>
