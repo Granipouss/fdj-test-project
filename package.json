@@ -5,6 +5,8 @@
   "scripts": {
     "build": "nx run-many -t build",
     "serve": "nx run-many -t serve",
+    "serve:frontend": "nx run frontend:serve",
+    "serve:backend": "nx run backend:serve",
     "test": "nx run-many -t test",
     "e2e": "nx run-many -t e2e"
   },
