@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -26,6 +27,13 @@ describe('LeaguesController', () => {
         {
           provide: LeaguesService,
           useValue: fakeMongoService,
+        },
+        {
+          provide: CACHE_MANAGER,
+          useValue: {
+            get: async () => void 0,
+            set: async () => void 0,
+          },
         },
       ],
     }).compile();
@@ -60,6 +68,20 @@ describe('LeaguesController', () => {
       await expect(controller.getAutocomplete('Le')).resolves.toEqual({
         data: [],
       });
+    });
+
+    it('should get from cache', async () => {
+      jest.spyOn(fakeMongoService, 'findAll');
+      jest
+        .spyOn(app.get(CACHE_MANAGER), 'get')
+        .mockResolvedValue(['League C', 'League D']);
+
+      const controller = app.get(LeaguesController);
+      await expect(controller.getAutocomplete('Leag')).resolves.toEqual({
+        data: ['League C', 'League D'],
+      });
+
+      expect(fakeMongoService.findAll).not.toHaveBeenCalled();
     });
   });
 

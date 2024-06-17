@@ -1,11 +1,14 @@
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import {
   Controller,
   Get,
+  Inject,
   NotFoundException,
   Param,
   Query,
 } from '@nestjs/common';
 import { ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { Cache } from 'cache-manager';
 
 import {
   AutocompleteDTO,
@@ -18,7 +21,10 @@ import { LeaguesService } from './leagues.service';
 
 @Controller('leagues')
 export class LeaguesController {
-  constructor(private readonly leaguesService: LeaguesService) {}
+  constructor(
+    private readonly leaguesService: LeaguesService,
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+  ) {}
 
   @ApiResponse({
     status: 200,
@@ -62,8 +68,12 @@ export class LeaguesController {
   @Get('autocomplete')
   async getAutocomplete(@Query('q') query?: string): Promise<AutocompleteDTO> {
     if (!query || query.length < 3) return { data: [] };
+    const cacheKey = `league_autocomplete_${query}`;
+    const valueFromCache = await this.cacheManager.get<string[]>(cacheKey);
+    if (valueFromCache) return { data: valueFromCache };
     const leagues = await this.leaguesService.findAll({ name: '^' + query });
     const data = leagues.slice(0, 5).map((league) => league.name);
+    await this.cacheManager.set(cacheKey, data);
     return { data };
   }
 
