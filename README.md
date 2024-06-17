@@ -16,7 +16,11 @@ Setting up MongoDB with [Docker Compose](https://docs.docker.com/compose/)
 docker-compose up -d
 ```
 
-You can import the database dumps using [mongorestore](https://www.mongodb.com/docs/database-tools/mongorestore/)
+You can import seeds for the database using the following command
+
+```sh
+./db/seed.sh
+```
 
 ## Run locally
 
