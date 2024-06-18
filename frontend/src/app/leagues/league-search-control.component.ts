@@ -11,6 +11,7 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import {
+  Observable,
   Subject,
   debounceTime,
   map,
@@ -47,25 +48,25 @@ export class LeagueSearchControlComponent
   @ViewChild(DefaultValueAccessor, { static: true })
   private valueAccessor!: DefaultValueAccessor;
 
-  writeValue(value: string) {
+  writeValue(value: string): void {
     this.valueAccessor.writeValue(value);
   }
 
-  registerOnChange(fn: (value: string) => object) {
+  registerOnChange(fn: (value: string) => object): void {
     this.valueAccessor.registerOnChange(fn);
   }
 
-  registerOnTouched(fn: () => void) {
+  registerOnTouched(fn: () => void): void {
     this.valueAccessor.registerOnTouched(fn);
   }
 
-  setDisabledState(isDisabled: boolean) {
+  setDisabledState(isDisabled: boolean): void {
     this.valueAccessor.setDisabledState(isDisabled);
   }
 
   readonly valueChanges = new Subject<string>();
 
-  readonly filteredSuggestions$ = this.valueChanges.pipe(
+  readonly filteredSuggestions$: Observable<string[]> = this.valueChanges.pipe(
     startWith(''),
     debounceTime(300),
     map((value) => value?.trim().toLocaleLowerCase() ?? ''),

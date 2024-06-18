@@ -1,13 +1,13 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import type { TeamDetailsDTO } from 'api-interfaces';
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgOptimizedImage],
   selector: 'app-team-page',
   templateUrl: './team-page.component.html',
   styleUrl: './team-page.component.scss',
@@ -21,5 +21,7 @@ export class TeamPageComponent {
   @HostBinding('class')
   readonly hostClassName = 'container is-max-desktop';
 
-  team$ = this.route.data.pipe(map((data) => data['team'] as TeamDetailsDTO));
+  team$: Observable<TeamDetailsDTO> = this.route.data.pipe(
+    map((data) => data['team']),
+  );
 }

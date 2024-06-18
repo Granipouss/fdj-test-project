@@ -12,7 +12,7 @@ export type LeaguesFilters = Partial<{
 export class LeaguesService {
   constructor(@InjectModel(League.name) private layerModel: Model<League>) {}
 
-  findAll(filters: LeaguesFilters) {
+  async findAll(filters: LeaguesFilters) {
     const mongoFilter: FilterQuery<League> = {};
     if (filters.name) {
       mongoFilter.name = { $regex: filters.name, $options: 'i' };

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, HostBinding, OnDestroy } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  Observable,
   ReplaySubject,
   map,
   merge,
@@ -9,6 +10,8 @@ import {
   startWith,
   switchMap,
 } from 'rxjs';
+
+import type { LeagueDTO } from 'api-interfaces';
 
 import { LeaguesApiService } from '../../leagues/leagues-api.service';
 import { LeaguesModule } from '../../leagues/leagues.module';
@@ -33,13 +36,13 @@ export class LeagueListPageComponent implements OnDestroy {
 
   readonly searchQuery$ = new ReplaySubject<string>(1);
 
-  handleSearch() {
+  handleSearch(): void {
     const query = this.searchControl.value;
     if (!query) return;
     this.searchQuery$.next(query);
   }
 
-  readonly leagues$ = this.searchQuery$.pipe(
+  readonly leagues$: Observable<LeagueDTO[] | null> = this.searchQuery$.pipe(
     switchMap((query) =>
       this.leaguesApi.searchLeagues(query).pipe(
         map((dto) => dto.data),
@@ -49,7 +52,7 @@ export class LeagueListPageComponent implements OnDestroy {
     shareReplay(1),
   );
 
-  readonly leaguesLoading$ = merge(
+  readonly leaguesLoading$: Observable<boolean> = merge(
     this.searchQuery$.pipe(map(() => true)),
     this.leagues$.pipe(map(() => false)),
   ).pipe(startWith(false), shareReplay(1));

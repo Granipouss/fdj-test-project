@@ -8,7 +8,7 @@ import { Team } from './team.schema';
 export class TeamsService {
   constructor(@InjectModel(Team.name) private teamModel: Model<Team>) {}
 
-  findAll() {
+  async findAll() {
     return this.teamModel.find().exec();
   }
 
