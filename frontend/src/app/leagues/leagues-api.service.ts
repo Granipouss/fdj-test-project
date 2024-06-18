@@ -12,10 +12,6 @@ import type {
 export class LeaguesApiService {
   constructor(private readonly http: HttpClient) {}
 
-  getLeagues() {
-    return this.http.get<LeagueListDTO>(`/api/leagues`);
-  }
-
   searchLeagues(query: string) {
     return this.http.get<LeagueListDTO>(`/api/leagues?q=${encodeURI(query)}`);
   }
