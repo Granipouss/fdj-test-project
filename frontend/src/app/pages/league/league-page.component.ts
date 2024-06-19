@@ -1,7 +1,8 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, HostBinding } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 
 import type { LeagueDetailsDTO } from 'api-interfaces';
 
@@ -16,6 +17,7 @@ export class LeaguePageComponent {
   constructor(
     //
     private readonly route: ActivatedRoute,
+    private readonly titleService: Title,
   ) {}
 
   @HostBinding('class')
@@ -23,5 +25,8 @@ export class LeaguePageComponent {
 
   league$: Observable<LeagueDetailsDTO> = this.route.data.pipe(
     map((data) => data['league']),
+    tap((league) => {
+      this.titleService.setTitle(`Front Paris Sportifs - ${league.name}`);
+    }),
   );
 }

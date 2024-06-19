@@ -19,6 +19,7 @@ export const appRoutes: Route[] = [
       import('./pages/league-list/league-list-page.component').then(
         (m) => m.LeagueListPageComponent,
       ),
+    title: 'Front Paris Sportifs',
   },
   {
     path: 'leagues/:leagueId',
@@ -45,10 +46,12 @@ export const appRoutes: Route[] = [
   {
     path: '500',
     component: InternalErrorPageComponent,
+    title: 'Front Paris Sportifs - 500 Internal Error',
   },
   {
     path: '**',
     pathMatch: 'full',
     component: NotFoundPageComponent,
+    title: 'Front Paris Sportifs - 404 Not Found',
   },
 ];
