@@ -34,9 +34,9 @@ npm run serve:frontend
 npm run serve:backend
 ```
 
-The **backend** is accessible at [http://localhost:3000/api] with a swagger documenting the routes.
+The **backend** is accessible at http://localhost:3000/api with a swagger documenting the routes.
 
-The **frontend** is accessible at [http://localhost:4200].
+The **frontend** is accessible at http://localhost:4200.
 
 ## Building
 
