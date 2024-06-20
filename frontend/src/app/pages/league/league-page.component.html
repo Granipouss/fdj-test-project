@@ -1,4 +1,4 @@
-<section *ngIf="league$ | async as league" class="section">
+<section *ngIf="league$ | async as league; else loader" class="section">
   <h2 class="title">League - {{ league.name }}</h2>
   <div class="fixed-grid has-3-cols">
     <ul class="grid">
@@ -17,3 +17,5 @@
     </ul>
   </div>
 </section>
+
+<ng-template #loader>Loader...</ng-template>
