@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { EMPTY, Observable, catchError } from 'rxjs';
+import { EMPTY, catchError } from 'rxjs';
 
 export const catchResolverError = (router: Router) =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  catchError<any, Observable<never>>((err) => {
+  catchError((err: unknown) => {
     if (err instanceof HttpErrorResponse && err.status === 404) {
       router.navigateByUrl('/404', { skipLocationChange: true });
       return EMPTY;
